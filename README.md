@@ -1,4 +1,4 @@
-A very simple tool to list all of the folders inside the %localappdata% and give you the option to delete unnecessary functions of Discord to debloat it and prevent these features from running on your PC.
+A very simple tool to list all of the folders inside the %localappdata% Discord directory and give you the option to delete unnecessary functions of Discord to prevent these features from running on your PC.
 
 Folders labeled in green exist, while folders labeled in red are deleted.
 
