@@ -1,0 +1,10 @@
+C:\Users\Gamer\source\repos\Discord Debloat\Discord Debloat\bin\Debug\Discord Debloat.exe.config
+C:\Users\Gamer\source\repos\Discord Debloat\Discord Debloat\bin\Debug\Discord Debloat.exe
+C:\Users\Gamer\source\repos\Discord Debloat\Discord Debloat\bin\Debug\Discord Debloat.pdb
+C:\Users\Gamer\source\repos\Discord Debloat\Discord Debloat\obj\Debug\Discord Debloat.csproj.AssemblyReference.cache
+C:\Users\Gamer\source\repos\Discord Debloat\Discord Debloat\obj\Debug\Discord_Debloat.Form1.resources
+C:\Users\Gamer\source\repos\Discord Debloat\Discord Debloat\obj\Debug\Discord_Debloat.Properties.Resources.resources
+C:\Users\Gamer\source\repos\Discord Debloat\Discord Debloat\obj\Debug\Discord Debloat.csproj.GenerateResource.cache
+C:\Users\Gamer\source\repos\Discord Debloat\Discord Debloat\obj\Debug\Discord Debloat.csproj.CoreCompileInputs.cache
+C:\Users\Gamer\source\repos\Discord Debloat\Discord Debloat\obj\Debug\Discord Debloat.exe
+C:\Users\Gamer\source\repos\Discord Debloat\Discord Debloat\obj\Debug\Discord Debloat.pdb
