@@ -8,3 +8,13 @@ C:\Users\Gamer\source\repos\Discord Debloat\Discord Debloat\obj\Debug\Discord De
 C:\Users\Gamer\source\repos\Discord Debloat\Discord Debloat\obj\Debug\Discord Debloat.csproj.CoreCompileInputs.cache
 C:\Users\Gamer\source\repos\Discord Debloat\Discord Debloat\obj\Debug\Discord Debloat.exe
 C:\Users\Gamer\source\repos\Discord Debloat\Discord Debloat\obj\Debug\Discord Debloat.pdb
+C:\Users\iceco\Downloads\Discord-Debloat-Tool-main\Discord Debloat\bin\Debug\Discord Debloat.exe.config
+C:\Users\iceco\Downloads\Discord-Debloat-Tool-main\Discord Debloat\bin\Debug\Discord Debloat.exe
+C:\Users\iceco\Downloads\Discord-Debloat-Tool-main\Discord Debloat\bin\Debug\Discord Debloat.pdb
+C:\Users\iceco\Downloads\Discord-Debloat-Tool-main\Discord Debloat\obj\Debug\Discord Debloat.csproj.AssemblyReference.cache
+C:\Users\iceco\Downloads\Discord-Debloat-Tool-main\Discord Debloat\obj\Debug\Discord_Debloat.Form1.resources
+C:\Users\iceco\Downloads\Discord-Debloat-Tool-main\Discord Debloat\obj\Debug\Discord_Debloat.Properties.Resources.resources
+C:\Users\iceco\Downloads\Discord-Debloat-Tool-main\Discord Debloat\obj\Debug\Discord Debloat.csproj.GenerateResource.cache
+C:\Users\iceco\Downloads\Discord-Debloat-Tool-main\Discord Debloat\obj\Debug\Discord Debloat.csproj.CoreCompileInputs.cache
+C:\Users\iceco\Downloads\Discord-Debloat-Tool-main\Discord Debloat\obj\Debug\Discord Debloat.exe
+C:\Users\iceco\Downloads\Discord-Debloat-Tool-main\Discord Debloat\obj\Debug\Discord Debloat.pdb

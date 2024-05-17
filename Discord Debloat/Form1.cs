@@ -7,10 +7,12 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection.Emit;
+using System.Runtime.Remoting.Lifetime;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Discord_Debloat
 {
@@ -21,6 +23,26 @@ namespace Discord_Debloat
         public Form1()
         {
             InitializeComponent();
+        }
+
+        public void CheckAndKillDiscord()
+        {
+            var discordProcesses = Process.GetProcessesByName("discord");
+
+            if (discordProcesses.Any() && MessageBox.Show("Discord is running. Do you want to kill the process to proceed?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                foreach (var process in discordProcesses)
+                {
+                    try
+                    {
+                        process.Kill();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Failed to kill Discord process: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
         }
         void ToggleCheckBox(string moduleName, CheckBox checkBox)
         {
@@ -41,7 +63,7 @@ namespace Discord_Debloat
         {
             if (checkBox.CheckState == CheckState.Checked && Directory.Exists(modulesFolderPath + @"\" + folderName))
             {
-                Directory.Delete(modulesFolderPath + @"\" + folderName);
+                Directory.Delete(modulesFolderPath + @"\" + folderName, true);
             }
         }
 
@@ -109,13 +131,9 @@ namespace Discord_Debloat
             foreach (string appDirectory in appDirectories)
             {
                 modulesFolderPath = Path.Combine(appDirectory, "modules");
-                if (Directory.Exists(modulesFolderPath))
-                {
-                    //MessageBox.Show($"Found 'modules' folder in: {appDirectory}");
-                    //MessageBox.Show(modulesFolderPath + @"\discord_voice-1");
-                }
             }
             refreshAvailableOptions();
+            CheckAndKillDiscord();
         }
 
         private void button1_Click(object sender, EventArgs e)
