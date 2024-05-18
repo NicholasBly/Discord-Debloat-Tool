@@ -6,4 +6,6 @@ Simply check the box next to the corresponding folder name to mark it for deleti
 
 TODO: Set up a task scheduler task to run daily to check for a new discord installation and delete the folders automatically.
 
+TODO: Add feature descriptions for each folder to describe them in detail via hovering over each label.
+
 ![Discord_Debloat_cZpjLoTMN3](https://github.com/NicholasBly/Discord-Debloat-Tool/assets/73457207/edba13cc-ffe0-4917-9ae8-50ac18d44c2b)
