@@ -82,7 +82,7 @@ namespace Discord_Debloat
         {
             // Iterate through all checkboxes
             bool anyCheckBoxEnabled = false;
-            foreach (CheckBox checkBox in new CheckBox[] { checkBox6, checkBox12, checkBox11, checkBox10, checkBox9, checkBox8, checkBox7, checkBox13, checkBox14 })
+            foreach (CheckBox checkBox in new CheckBox[] { checkBox6, checkBox12, checkBox11, checkBox10, checkBox9, checkBox8, checkBox7, checkBox13, checkBox14, checkBox1, checkBox5, checkBox3, checkBox4 })
             {
                 if (checkBox.Enabled)
                 {
@@ -158,7 +158,7 @@ namespace Discord_Debloat
 
         private void informationToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("The first five directories should not be deleted to retain normal Discord functionality.\n\nRed directories do not exist, and green ones exist.\n\nCheck each box next to the corresponding folder name and then click 'Debloat Discord' to delete each folder.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("The first four directories should not be deleted to retain normal Discord functionality.\n\nRed directories do not exist, and green ones exist.\n\nCheck each box next to the corresponding folder name and then click 'Debloat Discord' to delete each folder.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void creditsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -168,6 +168,42 @@ namespace Discord_Debloat
             {
                 Process.Start("https://github.com/NicholasBly");
             }
+        }
+
+        private void applyRecommendedOptionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            checkBox2.CheckState = CheckState.Unchecked;
+            checkBox1.CheckState = CheckState.Unchecked;
+            checkBox5.CheckState = CheckState.Unchecked;
+            checkBox3.CheckState = CheckState.Unchecked;
+            checkBox4.CheckState = CheckState.Unchecked;
+
+            checkBox1.Enabled = false;
+            checkBox5.Enabled = false;
+            checkBox3.Enabled = false;
+            checkBox4.Enabled = false;
+
+            checkBox14.CheckState = CheckState.Checked;
+            checkBox13.CheckState = CheckState.Checked;
+            checkBox7.CheckState = CheckState.Checked;
+            checkBox8.CheckState = CheckState.Checked;
+            checkBox9.CheckState = CheckState.Checked;
+            checkBox10.CheckState = CheckState.Checked;
+            checkBox11.CheckState = CheckState.Checked;
+            checkBox12.CheckState = CheckState.Checked;
+            checkBox6.CheckState = CheckState.Checked;
+
+            CheckBoxState();
+        }
+
+        private void enableNecessaryFoldersNotRecommendedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            checkBox1.Enabled = true;
+            checkBox5.Enabled = true;
+            checkBox3.Enabled = true;
+            checkBox4.Enabled = true;
+
+            CheckBoxState();
         }
     }
 }
