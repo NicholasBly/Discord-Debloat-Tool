@@ -8,4 +8,4 @@ TODO: Set up a task scheduler task to run daily to check for a new discord insta
 
 TODO: Add feature descriptions for each folder to describe them in detail via hovering over each label.
 
-![Discord_Debloat_cZpjLoTMN3](https://github.com/NicholasBly/Discord-Debloat-Tool/assets/73457207/edba13cc-ffe0-4917-9ae8-50ac18d44c2b)
+![Discord_Debloat_VSF7ybqpun](https://github.com/NicholasBly/Discord-Debloat-Tool/assets/73457207/7a412138-2a97-481f-9897-660b1d810570)
