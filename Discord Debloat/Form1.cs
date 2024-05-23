@@ -45,11 +45,12 @@ namespace Discord_Debloat
                 }
             }
         }
-        void ToggleCheckBox(string moduleName, CheckBox checkBox)
+        void ToggleCheckBox(string moduleNamePattern, CheckBox checkBox)
         {
-            string moduleFolderPath = Path.Combine(modulesFolderPath, moduleName);
+            string searchPattern = ReplaceNumbersWithWildcard(moduleNamePattern);
+            string[] matchingDirectories = Directory.GetDirectories(modulesFolderPath, searchPattern);
 
-            if (!Directory.Exists(moduleFolderPath))
+            if (matchingDirectories.Length == 0)
             {
                 checkBox.Checked = false;
                 checkBox.Enabled = false;
@@ -60,11 +61,16 @@ namespace Discord_Debloat
                 checkBox.Enabled = true;
             }
         }
-        void DeleteDirectoryIfChecked(CheckBox checkBox, string folderName)
+        void DeleteDirectoryIfChecked(CheckBox checkBox, string folderNamePattern)
         {
-            if (checkBox.CheckState == CheckState.Checked && Directory.Exists(modulesFolderPath + @"\" + folderName))
+            if (checkBox.CheckState == CheckState.Checked)
             {
-                Directory.Delete(modulesFolderPath + @"\" + folderName, true);
+                string[] matchingDirectories = Directory.GetDirectories(modulesFolderPath, folderNamePattern);
+
+                foreach (string directory in matchingDirectories)
+                {
+                    Directory.Delete(directory, true); // true to delete the directory and its contents
+                }
             }
         }
 
