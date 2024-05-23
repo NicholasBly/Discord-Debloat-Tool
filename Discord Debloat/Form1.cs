@@ -9,6 +9,7 @@ using System.Linq;
 using System.Reflection.Emit;
 using System.Runtime.Remoting.Lifetime;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
@@ -67,11 +68,15 @@ namespace Discord_Debloat
             }
         }
 
-        void UpdateLabelColor(System.Windows.Forms.Label label, string folderName)
+        void UpdateLabelColor(System.Windows.Forms.Label label, string folderNamePattern)
         {
-            if (Directory.Exists(modulesFolderPath + @"\" + folderName))
+            string searchPattern = ReplaceNumbersWithWildcard(folderNamePattern);
+            string[] matchingDirectories = Directory.GetDirectories(modulesFolderPath, searchPattern);
+
+            if (matchingDirectories.Length > 0)
             {
                 label.ForeColor = Color.Green;
+                label.Text = Path.GetFileName(matchingDirectories[0]); // Update label to the first matching directory name
             }
             else
             {
@@ -94,33 +99,37 @@ namespace Discord_Debloat
             // Disable button1 if all checkboxes are disabled
             button1.Enabled = anyCheckBoxEnabled;
         }
+        string ReplaceNumbersWithWildcard(string input)
+        {
+            return Regex.Replace(input, @"\d", "*");
+        }
 
         void refreshAvailableOptions()
         {
-            ToggleCheckBox("discord_cloudsync-1", checkBox6);
-            ToggleCheckBox("discord_dispatch-1", checkBox12);
-            ToggleCheckBox("discord_erlpack-1", checkBox11);
-            ToggleCheckBox("discord_game_utils-1", checkBox10);
-            ToggleCheckBox("discord_media-1", checkBox9);
-            ToggleCheckBox("discord_overlay2-1", checkBox8);
-            ToggleCheckBox("discord_rpc-1", checkBox7);
-            ToggleCheckBox("discord_spellcheck-1", checkBox13);
-            ToggleCheckBox("discord_zstd-1", checkBox14);
+            ToggleCheckBox("discord_cloudsync-*", checkBox6);
+            ToggleCheckBox("discord_dispatch-*", checkBox12);
+            ToggleCheckBox("discord_erlpack-*", checkBox11);
+            ToggleCheckBox("discord_game_utils-*", checkBox10);
+            ToggleCheckBox("discord_media-*", checkBox9);
+            ToggleCheckBox("discord_overlay2-*", checkBox8);
+            ToggleCheckBox("discord_rpc-*", checkBox7);
+            ToggleCheckBox("discord_spellcheck-*", checkBox13);
+            ToggleCheckBox("discord_zstd-*", checkBox14);
 
-            UpdateLabelColor(label1, label1.Text);
-            UpdateLabelColor(label2, label2.Text);
-            UpdateLabelColor(label3, label3.Text);
-            UpdateLabelColor(label4, label4.Text);
-            UpdateLabelColor(label5, label5.Text);
-            UpdateLabelColor(label6, label6.Text);
-            UpdateLabelColor(label7, label7.Text);
-            UpdateLabelColor(label8, label8.Text);
-            UpdateLabelColor(label9, label9.Text);
-            UpdateLabelColor(label10, label10.Text);
-            UpdateLabelColor(label11, label11.Text);
-            UpdateLabelColor(label12, label12.Text);
-            UpdateLabelColor(label13, label13.Text);
-            UpdateLabelColor(label14, label14.Text);
+            UpdateLabelColor(label1, ReplaceNumbersWithWildcard(label1.Text));
+            UpdateLabelColor(label2, ReplaceNumbersWithWildcard(label2.Text));
+            UpdateLabelColor(label3, ReplaceNumbersWithWildcard(label3.Text));
+            UpdateLabelColor(label4, ReplaceNumbersWithWildcard(label4.Text));
+            UpdateLabelColor(label5, ReplaceNumbersWithWildcard(label5.Text));
+            UpdateLabelColor(label6, ReplaceNumbersWithWildcard(label6.Text));
+            UpdateLabelColor(label7, ReplaceNumbersWithWildcard(label7.Text));
+            UpdateLabelColor(label8, ReplaceNumbersWithWildcard(label8.Text));
+            UpdateLabelColor(label9, ReplaceNumbersWithWildcard(label9.Text));
+            UpdateLabelColor(label10, ReplaceNumbersWithWildcard(label10.Text));
+            UpdateLabelColor(label11, ReplaceNumbersWithWildcard(label11.Text));
+            UpdateLabelColor(label12, ReplaceNumbersWithWildcard(label12.Text));
+            UpdateLabelColor(label13, ReplaceNumbersWithWildcard(label13.Text));
+            UpdateLabelColor(label14, ReplaceNumbersWithWildcard(label14.Text));
 
             CheckBoxState();
         }
@@ -138,15 +147,15 @@ namespace Discord_Debloat
 
         private void button1_Click(object sender, EventArgs e)
         {
-            DeleteDirectoryIfChecked(checkBox6, "discord_cloudsync-1");
-            DeleteDirectoryIfChecked(checkBox12, "discord_dispatch-1");
-            DeleteDirectoryIfChecked(checkBox11, "discord_erlpack-1");
-            DeleteDirectoryIfChecked(checkBox10, "discord_game_utils-1");
-            DeleteDirectoryIfChecked(checkBox9, "discord_media-1");
-            DeleteDirectoryIfChecked(checkBox8, "discord_overlay2-1");
-            DeleteDirectoryIfChecked(checkBox7, "discord_rpc-1");
-            DeleteDirectoryIfChecked(checkBox13, "discord_spellcheck-1");
-            DeleteDirectoryIfChecked(checkBox14, "discord_zstd-1");
+            DeleteDirectoryIfChecked(checkBox6, "discord_cloudsync-*");
+            DeleteDirectoryIfChecked(checkBox12, "discord_dispatch-*");
+            DeleteDirectoryIfChecked(checkBox11, "discord_erlpack-*");
+            DeleteDirectoryIfChecked(checkBox10, "discord_game_utils-*");
+            DeleteDirectoryIfChecked(checkBox9, "discord_media-*");
+            DeleteDirectoryIfChecked(checkBox8, "discord_overlay*-*");
+            DeleteDirectoryIfChecked(checkBox7, "discord_rpc-*");
+            DeleteDirectoryIfChecked(checkBox13, "discord_spellcheck-*");
+            DeleteDirectoryIfChecked(checkBox14, "discord_zstd-*");
 
             refreshAvailableOptions();
         }
@@ -204,6 +213,17 @@ namespace Discord_Debloat
             checkBox4.Enabled = true;
 
             CheckBoxState();
+        }
+
+        private void openFolderDirectoryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+                ProcessStartInfo startInfo = new ProcessStartInfo
+                {
+                    Arguments = modulesFolderPath,
+                    FileName = "explorer.exe"
+                };
+
+            Process.Start(startInfo);
         }
     }
 }

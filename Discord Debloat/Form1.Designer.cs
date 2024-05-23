@@ -60,11 +60,12 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.applyRecommendedOptionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.enableNecessaryFoldersNotRecommendedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.informationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.creditsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.applyRecommendedOptionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.enableNecessaryFoldersNotRecommendedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openFolderDirectoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -365,7 +366,8 @@
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.exitToolStripMenuItem,
             this.applyRecommendedOptionToolStripMenuItem,
-            this.enableNecessaryFoldersNotRecommendedToolStripMenuItem});
+            this.enableNecessaryFoldersNotRecommendedToolStripMenuItem,
+            this.openFolderDirectoryToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
@@ -373,9 +375,23 @@
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(93, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(321, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            // 
+            // applyRecommendedOptionToolStripMenuItem
+            // 
+            this.applyRecommendedOptionToolStripMenuItem.Name = "applyRecommendedOptionToolStripMenuItem";
+            this.applyRecommendedOptionToolStripMenuItem.Size = new System.Drawing.Size(321, 22);
+            this.applyRecommendedOptionToolStripMenuItem.Text = "Apply Recommended Option";
+            this.applyRecommendedOptionToolStripMenuItem.Click += new System.EventHandler(this.applyRecommendedOptionToolStripMenuItem_Click);
+            // 
+            // enableNecessaryFoldersNotRecommendedToolStripMenuItem
+            // 
+            this.enableNecessaryFoldersNotRecommendedToolStripMenuItem.Name = "enableNecessaryFoldersNotRecommendedToolStripMenuItem";
+            this.enableNecessaryFoldersNotRecommendedToolStripMenuItem.Size = new System.Drawing.Size(321, 22);
+            this.enableNecessaryFoldersNotRecommendedToolStripMenuItem.Text = "Enable Necessary Folders (Not Recommended)";
+            this.enableNecessaryFoldersNotRecommendedToolStripMenuItem.Click += new System.EventHandler(this.enableNecessaryFoldersNotRecommendedToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
             // 
@@ -400,19 +416,12 @@
             this.creditsToolStripMenuItem.Text = "Credits";
             this.creditsToolStripMenuItem.Click += new System.EventHandler(this.creditsToolStripMenuItem_Click);
             // 
-            // applyRecommendedOptionToolStripMenuItem
+            // openFolderDirectoryToolStripMenuItem
             // 
-            this.applyRecommendedOptionToolStripMenuItem.Name = "applyRecommendedOptionToolStripMenuItem";
-            this.applyRecommendedOptionToolStripMenuItem.Size = new System.Drawing.Size(229, 22);
-            this.applyRecommendedOptionToolStripMenuItem.Text = "Apply Recommended Option";
-            this.applyRecommendedOptionToolStripMenuItem.Click += new System.EventHandler(this.applyRecommendedOptionToolStripMenuItem_Click);
-            // 
-            // enableNecessaryFoldersNotRecommendedToolStripMenuItem
-            // 
-            this.enableNecessaryFoldersNotRecommendedToolStripMenuItem.Name = "enableNecessaryFoldersNotRecommendedToolStripMenuItem";
-            this.enableNecessaryFoldersNotRecommendedToolStripMenuItem.Size = new System.Drawing.Size(321, 22);
-            this.enableNecessaryFoldersNotRecommendedToolStripMenuItem.Text = "Enable Necessary Folders (Not Recommended)";
-            this.enableNecessaryFoldersNotRecommendedToolStripMenuItem.Click += new System.EventHandler(this.enableNecessaryFoldersNotRecommendedToolStripMenuItem_Click);
+            this.openFolderDirectoryToolStripMenuItem.Name = "openFolderDirectoryToolStripMenuItem";
+            this.openFolderDirectoryToolStripMenuItem.Size = new System.Drawing.Size(321, 22);
+            this.openFolderDirectoryToolStripMenuItem.Text = "Open Folder Directory";
+            this.openFolderDirectoryToolStripMenuItem.Click += new System.EventHandler(this.openFolderDirectoryToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -501,6 +510,7 @@
         private System.Windows.Forms.ToolStripMenuItem creditsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem applyRecommendedOptionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem enableNecessaryFoldersNotRecommendedToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openFolderDirectoryToolStripMenuItem;
     }
 }
 
