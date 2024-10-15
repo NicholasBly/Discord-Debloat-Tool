@@ -140,13 +140,24 @@ namespace Discord_Debloat
             CheckBoxState();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        public void checkDir()
         {
             string[] appDirectories = Directory.GetDirectories(discordFolderPath, "app-*.*.*");
-            foreach (string appDirectory in appDirectories)
+            string targetDirectory = appDirectories.FirstOrDefault(dir => Directory.Exists(Path.Combine(dir, "modules")));
+
+            if (targetDirectory == null)
             {
-                modulesFolderPath = Path.Combine(appDirectory, "modules");
+                MessageBox.Show("No directory with 'modules' folder found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+            else
+            {
+                modulesFolderPath = Path.Combine(targetDirectory, "modules");
+            }
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            checkDir();
             refreshAvailableOptions();
             CheckAndKillDiscord();
         }
