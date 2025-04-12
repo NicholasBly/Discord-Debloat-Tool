@@ -1,36 +1,119 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Reflection.Emit;
-using System.Runtime.Remoting.Lifetime;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Discord_Debloat
 {
     public partial class Form1 : Form
     {
-        string discordFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Discord");
-        string modulesFolderPath;
+        // Constants
+        private const string DISCORD_PROCESS_NAME = "discord";
+        private const string APP_PREFIX = "app-";
+        private const string MODULE_SUFFIX1 = "-1";
+        private const string MODULE_SUFFIX2 = "-2";
+
+        // Module name constants
+        private const string DISCORD_DESKTOP_CORE = "discord_desktop_core";
+        private const string DISCORD_KRISP = "discord_krisp";
+        private const string DISCORD_MODULES = "discord_modules";
+        private const string DISCORD_UTILS = "discord_utils";
+        private const string DISCORD_VOICE = "discord_voice";
+        private const string DISCORD_CLOUDSYNC = "discord_cloudsync";
+        private const string DISCORD_RPC = "discord_rpc";
+        private const string DISCORD_DESKTOP_OVERLAY = "discord_desktop_overlay";
+        private const string DISCORD_MEDIA = "discord_media";
+        private const string DISCORD_GAME_UTILS = "discord_game_utils";
+        private const string DISCORD_ERLPACK = "discord_erlpack";
+        private const string DISCORD_DISPATCH = "discord_dispatch";
+        private const string DISCORD_SPELLCHECK = "discord_spellcheck";
+        private const string DISCORD_ZSTD = "discord_zstd";
+
+        // Path variables
+        private readonly string discordFolderPath = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+            "Discord");
+        private string modulesFolderPath;
+
+        // Module to checkbox mapping
+        private Dictionary<string, CheckBox> moduleCheckboxMap;
+        private Dictionary<string, Label> moduleLabelMap;
+
         public Form1()
         {
             InitializeComponent();
         }
 
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            InitializeMappings();
+            FindModulesPath();
+            RefreshAvailableOptions();
+            CheckAndKillDiscord();
+        }
+
+        private void InitializeMappings()
+        {
+            // Initialize module to checkbox mapping
+            moduleCheckboxMap = new Dictionary<string, CheckBox>
+            {
+                { DISCORD_DESKTOP_CORE, checkBox1 },
+                { DISCORD_KRISP, checkBox2 },
+                { DISCORD_MODULES, checkBox3 },
+                { DISCORD_UTILS, checkBox4 },
+                { DISCORD_VOICE, checkBox5 },
+                { DISCORD_CLOUDSYNC, checkBox6 },
+                { DISCORD_RPC, checkBox7 },
+                { DISCORD_DESKTOP_OVERLAY, checkBox8 },
+                { DISCORD_MEDIA, checkBox9 },
+                { DISCORD_GAME_UTILS, checkBox10 },
+                { DISCORD_ERLPACK, checkBox11 },
+                { DISCORD_DISPATCH, checkBox12 },
+                { DISCORD_SPELLCHECK, checkBox13 },
+                { DISCORD_ZSTD, checkBox14 }
+            };
+
+            // Initialize module to label mapping
+            moduleLabelMap = new Dictionary<string, Label>
+            {
+                { DISCORD_DESKTOP_CORE, label1 },
+                { DISCORD_KRISP, label2 },
+                { DISCORD_MODULES, label3 },
+                { DISCORD_UTILS, label4 },
+                { DISCORD_VOICE, label5 },
+                { DISCORD_CLOUDSYNC, label6 },
+                { DISCORD_RPC, label7 },
+                { DISCORD_DESKTOP_OVERLAY, label11 },
+                { DISCORD_MEDIA, label9 },
+                { DISCORD_GAME_UTILS, label10 },
+                { DISCORD_ERLPACK, label8 },
+                { DISCORD_DISPATCH, label12 },
+                { DISCORD_SPELLCHECK, label13 },
+                { DISCORD_ZSTD, label14 }
+            };
+        }
+
+        private void FindModulesPath()
+        {
+            string[] appDirectories = Directory.GetDirectories(discordFolderPath, $"{APP_PREFIX}*.*.*");
+
+            // Take the first app directory (most likely the latest version)
+            if (appDirectories.Length > 0)
+            {
+                modulesFolderPath = Path.Combine(appDirectories[0], "modules");
+            }
+        }
+
         public void CheckAndKillDiscord()
         {
-            var discordProcesses = Process.GetProcessesByName("discord");
+            var discordProcesses = Process.GetProcessesByName(DISCORD_PROCESS_NAME);
 
-            if (discordProcesses.Any() && MessageBox.Show("Discord is running. Do you want to kill the process to proceed?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (discordProcesses.Any() &&
+                MessageBox.Show("Discord is running. Do you want to kill the process to proceed?",
+                "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 foreach (var process in discordProcesses)
                 {
@@ -40,207 +123,149 @@ namespace Discord_Debloat
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show($"Failed to kill Discord process: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show($"Failed to kill Discord process: {ex.Message}",
+                            "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
         }
-        void ToggleCheckBox(string moduleNamePattern, CheckBox checkBox)
-        {
-            string searchPattern = ReplaceNumbersWithWildcard(moduleNamePattern);
-            string[] matchingDirectories = Directory.GetDirectories(modulesFolderPath, searchPattern);
 
-            if (matchingDirectories.Length == 0)
+        private void RefreshAvailableOptions()
+        {
+            // Update checkbox states
+            foreach (var moduleEntry in moduleCheckboxMap)
             {
-                checkBox.Checked = false;
-                checkBox.Enabled = false;
+                string moduleName = moduleEntry.Key;
+                CheckBox checkBox = moduleEntry.Value;
+
+                ToggleCheckBox(moduleName, checkBox);
+
+
+                //Disable Protected Discord Functions
+                checkBox1.Enabled = false;
+                checkBox2.Enabled = false;
+                checkBox3.Enabled = false;
+                checkBox4.Enabled = false;
+                checkBox5.Enabled = false;
             }
-            else
+
+            // Update label colors
+            foreach (var labelEntry in moduleLabelMap)
             {
-                checkBox.Checked = true;
-                checkBox.Enabled = true;
+                string moduleName = labelEntry.Key;
+                Label label = labelEntry.Value;
+
+                UpdateLabelColor(label, moduleName);
             }
+
+            UpdateDebloatButtonState();
         }
-        void DeleteDirectoryIfChecked(CheckBox checkBox, string folderNamePattern)
-        {
-            if (checkBox.CheckState == CheckState.Checked)
-            {
-                string[] matchingDirectories = Directory.GetDirectories(modulesFolderPath, folderNamePattern);
 
-                foreach (string directory in matchingDirectories)
+        private void ToggleCheckBox(string baseModuleName, CheckBox checkBox)
+        {
+            string modulePath1 = Path.Combine(modulesFolderPath, baseModuleName + MODULE_SUFFIX1);
+            string modulePath2 = Path.Combine(modulesFolderPath, baseModuleName + MODULE_SUFFIX2);
+
+            bool exists1 = Directory.Exists(modulePath1);
+            bool exists2 = Directory.Exists(modulePath2);
+
+            checkBox.Checked = exists1 || exists2;
+            checkBox.Enabled = exists1 || exists2;
+        }
+
+        private void UpdateLabelColor(Label label, string moduleName)
+        {
+            string modulePath1 = Path.Combine(modulesFolderPath, moduleName + MODULE_SUFFIX1);
+            string modulePath2 = Path.Combine(modulesFolderPath, moduleName + MODULE_SUFFIX2);
+
+            bool exists = Directory.Exists(modulePath1) || Directory.Exists(modulePath2);
+            label.ForeColor = exists ? Color.Green : Color.Red;
+        }
+
+        private void UpdateDebloatButtonState()
+        {
+            // Only enable debloat button if at least one removable module is checked
+            bool anyRemovableModuleEnabled = false;
+
+            // List of modules that can be safely removed
+            var removableModules = new[]
+            {
+                DISCORD_CLOUDSYNC, DISCORD_DISPATCH, DISCORD_ERLPACK,
+                DISCORD_GAME_UTILS, DISCORD_MEDIA, DISCORD_DESKTOP_OVERLAY,
+                DISCORD_RPC, DISCORD_SPELLCHECK, DISCORD_ZSTD
+            };
+
+            foreach (string module in removableModules)
+            {
+                if (moduleCheckboxMap[module].Enabled)
                 {
-                    Directory.Delete(directory, true); // true to delete the directory and its contents
-                }
-            }
-        }
-
-        void UpdateLabelColor(System.Windows.Forms.Label label, string folderNamePattern)
-        {
-            string searchPattern = ReplaceNumbersWithWildcard(folderNamePattern);
-            string[] matchingDirectories = Directory.GetDirectories(modulesFolderPath, searchPattern);
-
-            if (matchingDirectories.Length > 0)
-            {
-                label.ForeColor = Color.Green;
-                label.Text = Path.GetFileName(matchingDirectories[0]); // Update label to the first matching directory name
-            }
-            else
-            {
-                label.ForeColor = Color.Red;
-            }
-        }
-        void CheckBoxState()
-        {
-            // Iterate through all checkboxes
-            bool anyCheckBoxEnabled = false;
-            foreach (CheckBox checkBox in new CheckBox[] { checkBox6, checkBox12, checkBox11, checkBox10, checkBox9, checkBox8, checkBox7, checkBox13, checkBox14, checkBox1, checkBox5, checkBox3, checkBox4 })
-            {
-                if (checkBox.Enabled)
-                {
-                    anyCheckBoxEnabled = true;
+                    anyRemovableModuleEnabled = true;
                     break;
                 }
             }
 
-            // Disable button1 if all checkboxes are disabled
-            button1.Enabled = anyCheckBoxEnabled;
-        }
-        string ReplaceNumbersWithWildcard(string input)
-        {
-            return Regex.Replace(input, @"\d", "*");
+            button1.Enabled = anyRemovableModuleEnabled;
         }
 
-        void refreshAvailableOptions()
+        private void DeleteDirectoryIfChecked(string moduleName)
         {
-            ToggleCheckBox("discord_cloudsync-*", checkBox6);
-            ToggleCheckBox("discord_dispatch-*", checkBox12);
-            ToggleCheckBox("discord_erlpack-*", checkBox11);
-            ToggleCheckBox("discord_game_utils-*", checkBox10);
-            ToggleCheckBox("discord_media-*", checkBox9);
-            ToggleCheckBox("discord_overlay2-*", checkBox8);
-            ToggleCheckBox("discord_rpc-*", checkBox7);
-            ToggleCheckBox("discord_spellcheck-*", checkBox13);
-            ToggleCheckBox("discord_zstd-*", checkBox14);
+            CheckBox checkBox = moduleCheckboxMap[moduleName];
 
-            UpdateLabelColor(label1, ReplaceNumbersWithWildcard(label1.Text));
-            UpdateLabelColor(label2, ReplaceNumbersWithWildcard(label2.Text));
-            UpdateLabelColor(label3, ReplaceNumbersWithWildcard(label3.Text));
-            UpdateLabelColor(label4, ReplaceNumbersWithWildcard(label4.Text));
-            UpdateLabelColor(label5, ReplaceNumbersWithWildcard(label5.Text));
-            UpdateLabelColor(label6, ReplaceNumbersWithWildcard(label6.Text));
-            UpdateLabelColor(label7, ReplaceNumbersWithWildcard(label7.Text));
-            UpdateLabelColor(label8, ReplaceNumbersWithWildcard(label8.Text));
-            UpdateLabelColor(label9, ReplaceNumbersWithWildcard(label9.Text));
-            UpdateLabelColor(label10, ReplaceNumbersWithWildcard(label10.Text));
-            UpdateLabelColor(label11, ReplaceNumbersWithWildcard(label11.Text));
-            UpdateLabelColor(label12, ReplaceNumbersWithWildcard(label12.Text));
-            UpdateLabelColor(label13, ReplaceNumbersWithWildcard(label13.Text));
-            UpdateLabelColor(label14, ReplaceNumbersWithWildcard(label14.Text));
+            if (checkBox.CheckState != CheckState.Checked)
+                return;
 
-            CheckBoxState();
-        }
+            string modulePath1 = Path.Combine(modulesFolderPath, moduleName + MODULE_SUFFIX1);
+            string modulePath2 = Path.Combine(modulesFolderPath, moduleName + MODULE_SUFFIX2);
 
-        public void checkDir()
-        {
-            string[] appDirectories = Directory.GetDirectories(discordFolderPath, "app-*.*.*");
-            string targetDirectory = appDirectories.FirstOrDefault(dir => Directory.Exists(Path.Combine(dir, "modules")));
+            if (Directory.Exists(modulePath1))
+                Directory.Delete(modulePath1, true);
 
-            if (targetDirectory == null)
-            {
-                MessageBox.Show("No directory with 'modules' folder found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            else
-            {
-                modulesFolderPath = Path.Combine(targetDirectory, "modules");
-            }
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            checkDir();
-            refreshAvailableOptions();
-            CheckAndKillDiscord();
+            if (Directory.Exists(modulePath2))
+                Directory.Delete(modulePath2, true);
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            DeleteDirectoryIfChecked(checkBox6, "discord_cloudsync-*");
-            DeleteDirectoryIfChecked(checkBox12, "discord_dispatch-*");
-            DeleteDirectoryIfChecked(checkBox11, "discord_erlpack-*");
-            DeleteDirectoryIfChecked(checkBox10, "discord_game_utils-*");
-            DeleteDirectoryIfChecked(checkBox9, "discord_media-*");
-            DeleteDirectoryIfChecked(checkBox8, "discord_overlay*-*");
-            DeleteDirectoryIfChecked(checkBox7, "discord_rpc-*");
-            DeleteDirectoryIfChecked(checkBox13, "discord_spellcheck-*");
-            DeleteDirectoryIfChecked(checkBox14, "discord_zstd-*");
+            // Only allow removal of safe-to-remove modules
+            DeleteDirectoryIfChecked(DISCORD_CLOUDSYNC);
+            DeleteDirectoryIfChecked(DISCORD_DISPATCH);
+            DeleteDirectoryIfChecked(DISCORD_ERLPACK);
+            DeleteDirectoryIfChecked(DISCORD_GAME_UTILS);
+            DeleteDirectoryIfChecked(DISCORD_MEDIA);
+            DeleteDirectoryIfChecked(DISCORD_DESKTOP_OVERLAY);
+            DeleteDirectoryIfChecked(DISCORD_RPC);
+            DeleteDirectoryIfChecked(DISCORD_SPELLCHECK);
+            DeleteDirectoryIfChecked(DISCORD_ZSTD);
 
-            refreshAvailableOptions();
+            RefreshAvailableOptions();
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Process.GetCurrentProcess().Kill();
+            Application.Exit();
         }
 
         private void informationToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("The first four directories should not be deleted to retain normal Discord functionality.\n\nRed directories do not exist, and green ones exist.\n\nCheck each box next to the corresponding folder name and then click 'Debloat Discord' to delete each folder.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(
+                "The first five directories should not be deleted to retain normal Discord functionality.\n\n" +
+                "Red directories do not exist, and green ones exist.\n\n" +
+                "Check each box next to the corresponding folder name and then click 'Debloat Discord' to delete each folder.",
+                "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void creditsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show("Credits to Nicholas Bly on github. Open the github page now?", "Credits", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if ((result == DialogResult.Yes))
+            const string GITHUB_URL = "https://github.com/NicholasBly";
+
+            DialogResult result = MessageBox.Show(
+                "Credits to Nicholas Bly on GitHub. Open the GitHub page now?",
+                "Credits", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
             {
-                Process.Start("https://github.com/NicholasBly");
+                Process.Start(GITHUB_URL);
             }
-        }
-
-        private void applyRecommendedOptionToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            checkBox2.CheckState = CheckState.Unchecked;
-            checkBox1.CheckState = CheckState.Unchecked;
-            checkBox5.CheckState = CheckState.Unchecked;
-            checkBox3.CheckState = CheckState.Unchecked;
-            checkBox4.CheckState = CheckState.Unchecked;
-
-            checkBox1.Enabled = false;
-            checkBox5.Enabled = false;
-            checkBox3.Enabled = false;
-            checkBox4.Enabled = false;
-
-            checkBox14.CheckState = CheckState.Checked;
-            checkBox13.CheckState = CheckState.Checked;
-            checkBox7.CheckState = CheckState.Checked;
-            checkBox8.CheckState = CheckState.Checked;
-            checkBox9.CheckState = CheckState.Checked;
-            checkBox10.CheckState = CheckState.Checked;
-            checkBox11.CheckState = CheckState.Checked;
-            checkBox12.CheckState = CheckState.Checked;
-            checkBox6.CheckState = CheckState.Checked;
-
-            CheckBoxState();
-        }
-
-        private void enableNecessaryFoldersNotRecommendedToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            checkBox1.Enabled = true;
-            checkBox5.Enabled = true;
-            checkBox3.Enabled = true;
-            checkBox4.Enabled = true;
-
-            CheckBoxState();
-        }
-
-        private void openFolderDirectoryToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-                ProcessStartInfo startInfo = new ProcessStartInfo
-                {
-                    Arguments = modulesFolderPath,
-                    FileName = "explorer.exe"
-                };
-
-            Process.Start(startInfo);
         }
     }
 }

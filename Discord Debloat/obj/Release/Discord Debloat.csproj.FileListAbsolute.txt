@@ -1,0 +1,10 @@
+C:\Users\iceco\Downloads\Discord-Debloat-Tool-main\Discord Debloat\bin\Release\Discord Debloat.exe.config
+C:\Users\iceco\Downloads\Discord-Debloat-Tool-main\Discord Debloat\bin\Release\Discord Debloat.exe
+C:\Users\iceco\Downloads\Discord-Debloat-Tool-main\Discord Debloat\bin\Release\Discord Debloat.pdb
+C:\Users\iceco\Downloads\Discord-Debloat-Tool-main\Discord Debloat\obj\Release\Discord Debloat.csproj.AssemblyReference.cache
+C:\Users\iceco\Downloads\Discord-Debloat-Tool-main\Discord Debloat\obj\Release\Discord_Debloat.Form1.resources
+C:\Users\iceco\Downloads\Discord-Debloat-Tool-main\Discord Debloat\obj\Release\Discord_Debloat.Properties.Resources.resources
+C:\Users\iceco\Downloads\Discord-Debloat-Tool-main\Discord Debloat\obj\Release\Discord Debloat.csproj.GenerateResource.cache
+C:\Users\iceco\Downloads\Discord-Debloat-Tool-main\Discord Debloat\obj\Release\Discord Debloat.csproj.CoreCompileInputs.cache
+C:\Users\iceco\Downloads\Discord-Debloat-Tool-main\Discord Debloat\obj\Release\Discord Debloat.exe
+C:\Users\iceco\Downloads\Discord-Debloat-Tool-main\Discord Debloat\obj\Release\Discord Debloat.pdb
